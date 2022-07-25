@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    Ad_update
+{% endblock title %}
+
+
+{% block content %}
+
+<h3>Изменить объявление</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p}}
+
+    <input type="submit" value="Изменить объявление">
+</form>
+
+{% endblock content %}

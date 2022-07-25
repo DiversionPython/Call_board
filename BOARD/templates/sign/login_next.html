@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
+
+<form method="post" action="{% url 'code_view' %}">
+    {% csrf_token %}
+    {{error}}
+    {{ form.as_p }}
+
+    <input type="submit" value="Войти">
+</form>
+
+{% endblock %}

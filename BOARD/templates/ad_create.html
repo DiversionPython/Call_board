@@ -1,0 +1,34 @@
+{% extends 'index.html' %}
+
+
+{% block title %}
+    Ad_create
+{% endblock title %}
+
+
+{% block content %}
+<h3>Новое объявление</h3>
+<form method="POST" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-4">
+      {{ 'Категория' }}
+      {{ form.category }}
+    </div>
+    <div class="col-8">
+      {{ 'Заголовок' }}
+      {{ form.title }}
+    </div>
+    {{ 'Текст' }}
+    {{ form.text }}
+    <div class="col-12">
+    </div>
+      {{ 'Медиа' }}
+      {{ form.media }}
+    <div class="col-6">
+    </div>
+
+    <input type="submit" value="Добавить объявление">
+</form>
+<br>
+<br>
+{% endblock content %}

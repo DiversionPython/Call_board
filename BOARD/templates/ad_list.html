@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% block title %}
+    Ad
+{% endblock title %}
+
+{% block content %}
+    <span style="color: #000000;"><a style="color: #000000;" href="{% url 'ad_search' %}">Поиск объявления</a></span> <br>
+    {% if ad %}
+        {% for one_ad in ad|dictsortreversed:"dateCreation" %}
+            <span style="color: #000000;"><a style="color: #000000;" href="{% url 'one_ad' one_ad.id %}"><br>{{ one_ad.title }}<br></a></span>
+
+            {% if user.is_authenticated %}
+                    <span style="color: #000000;"><a style="color: #000000;" href="{% url 'ad_update' one_ad.id %}"><br>Изменить объявление<br></a></span>
+            {% endif %}
+
+        {% endfor %}
+    {% else %}
+       <h2>Объявлений нет!</h2>
+    {% endif %}
+<br>
+<!-- Если есть права для добавления объявления, то отображается кнопка Создать объявление -->
+{% if user.is_authenticated %}
+    <a href="{% url 'ad_create' %}">Создать объявление</a> <br>
+{% endif %}
+
+{% if is_paginated %}
+    <!-- Если доступна предыдущая страница, то даём ссылку на неё и самую первую страницу -->
+    {% if page_obj.has_previous %}
+        <a href="?page=1">Первая</a>
+        <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
+    {% endif %}
+
+    <!-- Показываем только текущую страницу и ближайшие к ней, чтобы список не тянулся и не захламлял страницу -->
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a>{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    <!-- Если есть следующая страница, то даём ссылку на неё и на самую последнюю страницу -->
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">>>></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+    {% endif %}
+{% endif %}
+
+{% endblock content %}
